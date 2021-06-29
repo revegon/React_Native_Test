@@ -1,20 +1,13 @@
 import React from 'react';
-import {  StyleSheet, View, BackHandler, Alert } from 'react-native';
-import { IconButton, Title, Button } from 'react-native-paper'; //
+import {  StyleSheet, View, BackHandler, Alert  } from 'react-native';
+import { Title, Button } from 'react-native-paper'; //
 import { TextInput, PasswordInput } from '../../Components/Inputs';
 import { validateEmail } from '../../Helper/Validations';
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        // this.pages = {
-        //     password: "password",
-        //     emailEntry: "emailEntry",
-        //     emailSelect: "emailSelect",
-        // }
         this.state = {
-            // currentPage: "emailSelect",
-            // lastPage: [],
             password: "",
             errorMessage: "",
             email: "",
@@ -24,12 +17,7 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
-        this.backHandler = BackHandler.addEventListener("hardwareBackPress", this.backBtnPressed);
-
-        // check for available used emails
-        // this.setState({
-        //     currentPage: this.pages.emailEntry,
-        // });
+        this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => this.backBtnPressed());
     }
 
     componentWillUnmount() {
@@ -56,49 +44,31 @@ class Login extends React.Component {
     }
 
     backToLastPage(fieldToBlank) {
-        // const { lastPage } = this.state;
-        // const page = lastPage.pop();
-        // if(!page) {
-        //     this.checkExit();
-        //     return;
-        // }
-        const state = {
-            // currentPage: page,
-            // lastPage: lastPage, 
-        };
+        const state = {};
         state[fieldToBlank] = "";
 
         this.setState(state);
     }
 
     backBtnPressed() {
-        // const { currentPage, lastPage } = this.state;
-        // if(lastPage) {
-        //     const fieldToBlank = currentPage ==  this.pages.password ? "password" : "email";
-        //     this.backToLastPage(fieldToBlank);
-        // } else {
-            this.checkExit();
-        // }
+        this.checkExit();
     }
 
     verifyInputs() {
+        console.log('verifying inputs');
         this.verifyInput("email");
         this.verifyInput("password");
     }
 
     verifyInput(field) {
-        const {email, password, 
-            // lastPage, currentPage
-        } = this.state;
+        const {email, password} = this.state;
         if (field == "email") {
             if(!validateEmail(email)) {
                 this.setState({
                     errorEmail: "Invalid email",
                 });
             } else {
-                // lastPage.push(currentPage);
                 this.setState({
-                    // currentPage: this.pages.password,
                     errorEmail: "",
                 });
             }
@@ -116,103 +86,33 @@ class Login extends React.Component {
         }
     }
 
-    // renderInnerComponent() {
-    //     const { 
-    //         currentPage, 
-    //         password, errorMessage, email } = this.state;
-
-    //     if(currentPage === this.pages.emailEntry) {
-    //         return (
-    //             <View style={styles.inputContainer}>
-    //                 <TextInput 
-    //                     label="Email"
-    //                     value={email}
-    //                     onChangeText={value => this.onTextChange("email", value)}
-    //                     errorMessage={errorMessage}
-    //                     okIconPressed={() => this.verifyInput("email")}
-    //                     />
-    //             </View>
-    //         );
-    //     } else if(currentPage === this.pages.password) {
-    //         return (
-    //             <View>
-    //                 <Text>Please enter password for {email}: </Text>
-    //                 <View style={styles.inputContainer}>
-    //                     <PasswordInput 
-    //                         label="Password"
-    //                         value={password}
-    //                         onChangeText={value => this.onTextChange("password", value)}
-    //                         errorMessage={errorMessage}
-    //                         okIconPressed={() => this.verifyInput("password")}
-    //                         />
-    //                 </View>
-    //             </View>
-    //         );
-    //     }
-    // }
-
     renderInputs() {
         const {email, password, errorEmail, errorPassword} = this.state;
-
         return (
             <View style={styles.inputSection}>
-                <View style={styles.inputContainer}>
-                    <TextInput 
-                        label="Email"
-                        value={email}
-                        onChangeText={value => this.onTextChange("email", value)}
-                        errorMessage={errorEmail}
-                        okIconPressed={() => this.verifyInput("email")}
-                        />
-                </View>
-                <View style={styles.inputContainer}>
-                    <PasswordInput 
-                        label="Password"
-                        value={password}
-                        onChangeText={value => this.onTextChange("password", value)}
-                        errorMessage={errorPassword}
-                        okIconPressed={() => this.verifyInput("password")}
-                        />
-                </View>
-                <View style={{justifyContent: 'center', }}>
-                    <Button 
-                        mode="contained"
-                        style={styles.okBtn}
-                        onPress={() => this.verifyInputs()}
-                        >
-                            Submit
-                    </Button>
-                </View>
+                <TextInput 
+                    label="Email"
+                    value={email}
+                    onChangeText={value => this.onTextChange("email", value)}
+                    errorMessage={errorEmail}
+                    okIconPressed={() => this.verifyInput("email")}
+                    />
+                <PasswordInput 
+                    label="Password"
+                    value={password}
+                    onChangeText={value => this.onTextChange("password", value)}
+                    errorMessage={errorPassword}
+                    okIconPressed={() => this.verifyInput("password")}
+                    />
+                <Button 
+                    mode="contained"
+                    style={styles.okBtn}
+                    onPress={() => this.verifyInputs()}
+                    >
+                        Submit
+                </Button>
             </View>
         )
-    }
-
-    renderHeader() {
-        const { lastPage } = this.state;
-        return (
-            <View style={styles.titleContainer}>
-                <View style={styles.backIconContainer}>
-                    {
-                        lastPage.length ?
-                        <IconButton 
-                            style={styles.backIcon} 
-                            icon="arrow-left" 
-                            onPress={() => this.backBtnPressed()} 
-                            />
-                        : null
-                    }
-                </View>
-                <View style={styles.titleTextContainer}>
-                    <Title style={styles.title}>Login</Title>
-                </View>
-            </View>
-        );
-        // return (
-        //     <Appbar.Header>
-        //         {lastPage.length ? <Appbar.BackAction onPress={() => this.backBtnPressed()} /> : null}
-        //         <Appbar.Content title="Login" />
-        //     </Appbar.Header>
-        // )
     }
 
     renderHeaderSection() {
@@ -228,9 +128,7 @@ class Login extends React.Component {
         return (
             <View style={styles.container}>
                 {this.renderHeaderSection()}
-                <View style={styles.mainContainer}>
-                    {this.renderInputs()}
-                </View>
+                {this.renderInputs()}
             </View>
         );
     }
@@ -238,51 +136,21 @@ class Login extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
-        // marginTop: 0,
-        // alignItems: 'center',
+        flex: 1,
         padding: 20,
     },
-    listContainer: {
-
-    },
-    titleContainer: {
-        flexDirection: 'row',
-        // height: 50,
-        // justifyContent: 'center',
-        backgroundColor: 'red',
-    },
-    mainContainer: {
-
-    },
-    backIcon: {
-
-    },
-    backIconContainer: {
-        width: 25,
-    },
-    inputContainer: {
-        flexDirection: 'row',
-        // flex: 1,
-    },
     titleTextContainer: {
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        // flex: 1,
-        height: 30,
-    },
-    title: {
-        paddingRight: 25,
+        flex: 1,
     },
     okBtn: {
-        margin: 10,
-        // flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginTop: 20,
+        alignSelf: 'center',
     },
     inputSection: {
-        // flex: 1,
+        flex: 2.5,
     }
-  });
+});
 
 export { Login };

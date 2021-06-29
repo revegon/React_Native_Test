@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1,
-        marginVertical: 10,
+        // flex: 1,
+        marginVertical: 15,
     },
     inputContainer: {
         flexDirection: 'row',
