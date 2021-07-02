@@ -87,13 +87,11 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        // flex: 1,
         marginVertical: 15,
     },
     inputContainer: {
         flexDirection: 'row',
         backgroundColor: '#cccccc',
-        // height: 60,
     },
     iconContainer: {
         justifyContent:'center',
@@ -103,7 +101,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#cccccc',
         overflow: 'hidden',
-        // height: 60,
     },
     errorContainer: {
         flex:1,
@@ -115,7 +112,6 @@ const styles = StyleSheet.create({
     iconBottom: {
         borderBottomWidth: 3,
         borderBottomColor: '#6200ee',
-        // borderColor: "transparent"
     }
 });
 

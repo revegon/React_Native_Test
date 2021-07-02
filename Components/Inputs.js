@@ -157,13 +157,11 @@ class PasswordInput extends React.Component {
             okIconPressed,
         } = this.props;
         const {showText} = this.state;
-        let textRevealIcon = null;
-        if(!alwaysHidden) {
-            textRevealIcon = <Input.Icon 
-                                icon={showText ? "eye-off" : "eye"}
-                                onPress={() => this.onShowTextPress()}
-                                />
-        }
+        let textRevealIcon = alwaysHidden ? null : 
+                <Input.Icon 
+                    icon={showText ? "eye-off" : "eye"}
+                    onPress={() => this.onShowTextPress()}
+                />;
 
         return (     
             <InputBase 
